@@ -1,0 +1,11 @@
+Bluehost DNS — Connect Subdomain to Vercel
+
+1) Login to Bluehost → Domains → Zone Editor
+2) Select digitaldigestglobal.com
+3) Add a CNAME record:
+   Type: CNAME
+   Host/Name: proto
+   Points to/Target: cname.vercel-dns.com
+   TTL: 14400 (or Auto)
+4) Save. Wait ~15–30 minutes for propagation.
+5) In Vercel → Project → Settings → Domains → Add `proto.digitaldigestglobal.com`.
