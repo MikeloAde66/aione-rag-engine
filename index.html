@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiOne Knowledge Engine</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --accent-hover: #0284c7;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            letter-spacing: -0.025em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: #0f172a;
+            color: var(--text-color);
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: #0f172a;
+            font-weight: 600;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .answer-box {
+            background-color: #0f172a;
+            border: 1px solid var(--accent-color);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .results {
+            margin-top: 1rem;
+        }
+
+        .result-item {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.85rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .result-title {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .result-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-score {
+            float: right;
+            background-color: #334155;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            color: #f8fafc;
+        }
+
+        .status-msg {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AiOne Knowledge Engine</h1>
+    
+    <div class="grid">
+        <!-- Ingest Section -->
+        <div class="card">
+            <h2>Ingest Knowledge Chunk</h2>
+            <form id="ingestForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="ingestTitle" required placeholder="e.g. Principia Hermetica">
+                </div>
+                <div class="form-group">
+                    <label>Author</label>
+                    <input type="text" id="ingestAuthor" required placeholder="e.g. Hermes Trismegistus">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="ingestCategory" required placeholder="e.g. Esoteric Philosophy">
+                </div>
+                <div class="form-group">
+                    <label>Content Chunk</label>
+                    <textarea id="ingestText" required placeholder="Paste exact text knowledge chunk here..."></textarea>
+                </div>
+                <button type="submit">Embed & Ingest Document</button>
+                <div id="ingestStatus" class="status-msg"></div>
+            </form>
+        </div>
+
+        <!-- RAG Chat Section -->
+        <div class="card">
+            <h2>RAG Knowledge Assistant</h2>
+            <form id="ragForm">
+                <div class="form-group">
+                    <label>Ask a Question</label>
+                    <input type="text" id="ragQuestion" required placeholder="e.g. What connects nature with higher intent?">
+                </div>
+                <button type="submit">Ask AI Assistant</button>
+            </form>
+
+            <div id="ragAnswerContainer" style="display:none;">
+                <label style="margin-top: 1rem;">Generated AI Answer</label>
+                <div class="answer-box" id="ragAnswerText"></div>
+            </div>
+
+            <div class="results" id="ragSources"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle Ingest
+    document.getElementById('ingestForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const statusDiv = document.getElementById('ingestStatus');
+        statusDiv.style.color = '#38bdf8';
+        statusDiv.innerText = 'Processing embedding...';
+
+        const payload = {
+            title: document.getElementById('ingestTitle').value,
+            author: document.getElementById('ingestAuthor').value,
+            category: document.getElementById('ingestCategory').value,
+            text: document.getElementById('ingestText').value
+        };
+
+        try {
+            const res = await fetch('/ingest', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                statusDiv.style.color = '#4ade80';
+                statusDiv.innerText = `Ingested successfully! ID: ${data.inserted_id}`;
+                document.getElementById('ingestText').value = '';
+            } else {
+                statusDiv.style.color = '#f87171';
+                statusDiv.innerText = `Error: ${data.detail || 'Ingestion failed'}`;
+            }
+        } catch (err) {
+            statusDiv.style.color = '#f87171';
+            statusDiv.innerText = 'Failed to communicate with server.';
+        }
+    });
+
+    // Handle RAG Chat
+    document.getElementById('ragForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const answerBox = document.getElementById('ragAnswerText');
+        const answerContainer = document.getElementById('ragAnswerContainer');
+        const sourcesDiv = document.getElementById('ragSources');
+
+        answerContainer.style.display = 'block';
+        answerBox.style.borderColor = '#38bdf8';
+        answerBox.innerHTML = '<span style="color: #38bdf8;">Retrieving context and generating answer...</span>';
+        sourcesDiv.innerHTML = '';
+
+        const payload = {
+            question: document.getElementById('ragQuestion').value,
+            limit: 3
+        };
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                answerBox.innerText = data.answer;
+
+                if (data.sources && data.sources.length > 0) {
+                    sourcesDiv.innerHTML = '<label style="margin-top: 1rem;">Grounded Context Sources</label>' + 
+                    data.sources.map(item => `
+                        <div class="result-item">
+                            <span class="result-score">${item.score.toFixed(3)}</span>
+                            <div class="result-title">${item.title}</div>
+                            <div class="result-meta">By ${item.author} | Category: ${item.category}</div>
+                            <div style="font-size: 0.85rem; color: #cbd5e1;">"${item.content_chunk}"</div>
+                        </div>
+                    `).join('');
+                }
+            } else {
+                answerBox.style.borderColor = '#f87171';
+                answerBox.innerText = `Error: ${data.detail || 'RAG generation failed'}`;
+            }
+        } catch (err) {
+            answerBox.style.borderColor = '#f87171';
+            answerBox.innerText = 'Failed to communicate with server.';
+        }
+    });
+</script>
+
+</body>
+</html>
