@@ -28,16 +28,19 @@ export default function ISSFeedModal({ isOpen, onClose }: ModalProps) {
           </button>
         </div>
 
- <video
-  autoPlay
-  loop
-  muted
-  playsInline
-  className="object-cover w-full h-full"
-  src="/video/iss-loop.mp4"
->
-  Your browser does not support the video tag.
-</video>
+<div className="relative w-full h-[360px] bg-black">
+<iframe
+  src="https://www.youtube-nocookie.com/embed/1CUqs1uAqpQ?autoplay=1&mute=1"
+  title="Live ISS HD Earth Viewing Stream"
+  className="w-full h-full scale-105 border-0 pointer-events-none"
+  allow="autoplay; encrypted-media; picture-in-picture"
+  allowFullScreen
+  />
+  <div className="absolute top-3 left-3 bg-red-950/80 text-red-400 text-[10px] px-2 py-0.5 rounded border border-red-500/40 flex items-center gap-1.5 font-mono">
+    <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+    LIVE ISS FEED
+  </div>
+</div>
 
         {/* Telemetry Bar */}
         <div className="grid grid-cols-3 gap-2 p-3 bg-slate-950 border-t border-amber-500/20 font-mono text-[11px]">

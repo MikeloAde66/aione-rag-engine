@@ -1,45 +1,59 @@
 "use client";
-/* cspell:ignore HDEV */
+
 import React from "react";
 
-export default function EmbeddedVideoCard() {
+interface EmbeddedVideoCardProps {
+  onExploreLore?: () => void;
+  videoUrl?: string;
+}
+
+export default function EmbeddedVideoCard({
+  onExploreLore,
+  videoUrl = "https://www.youtube-nocookie.com/embed/1CUqs1uAqpQ",
+}: EmbeddedVideoCardProps) {
   return (
-    <div className="flex flex-col w-full mt-4 overflow-hidden border rounded-lg bg-slate-900/80 backdrop-blur-md border-amber-500/30">
-      {/* Header Bar */}
-      <div className="flex items-center justify-between px-3 py-2 border-b bg-slate-950/90 border-amber-500/20">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-          <span className="font-mono text-[11px] font-bold tracking-wider text-amber-300">
-            LIVE ISS HD EARTH VIEW
-          </span>
-        </div>
-        <span className="font-mono text-[9px] text-slate-500">NASA HDEV</span>
-      </div>
-
-      {/* Embedded Video Container */}
-      <div className="relative flex items-center justify-center w-full overflow-hidden bg-black aspect-video">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="object-cover w-full h-full"
-          src="/video/iss-loop.mp4"
+    <div className="p-4 border rounded-xl border-amber-500/20 bg-slate-950/80 backdrop-blur-sm">
+      {/* Header with Prominent Lore Channel Button */}
+      <div className="flex items-center justify-between mb-2">
+        <span className="font-mono text-[10px] tracking-wider text-amber-400">
+          CURRENT EPOCH
+        </span>
+        
+        {/* Lore Interactive Button */}
+        <button
+          onClick={onExploreLore}
+          className="font-mono text-[11px] text-cyan-300 bg-cyan-950/60 hover:bg-cyan-500/20 border border-cyan-500/40 px-2.5 py-1 rounded-md transition-all shadow-sm hover:shadow-cyan-500/20 active:scale-95 cursor-pointer flex items-center gap-1.5"
         >
-          Your browser does not support the video tag.
-        </video>
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+          EXPLORE LORE
+        </button>
       </div>
 
-      {/* Telemetry Footer */}
-      <div className="grid grid-cols-2 gap-2 p-2 font-mono border-t bg-slate-950/80 border-amber-500/20">
-        <div>
-          <span className="block text-[8px] text-slate-500">ORBITAL SPEED</span>
-          <span className="text-[10px] text-amber-400">~27,600 KM/H</span>
-        </div>
-        <div>
-          <span className="block text-[8px] text-slate-500">ALTITUDE</span>
-          <span className="text-[10px] text-cyan-400">~408 KM</span>
-        </div>
+      {/* Epoch Title & Details */}
+      <h2 className="font-mono text-2xl font-bold tracking-wider text-amber-300">
+        KALI YUGA
+      </h2>
+      <p className="mt-1 font-mono text-xs text-slate-400">
+        YEAR 5,128 / 432,000
+      </p>
+
+      {/* Progress Bar */}
+      <div className="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+        <div className="bg-amber-400 h-full w-[1.187%]" />
+      </div>
+      <span className="font-mono text-[10px] text-amber-400/80 mt-1 block">
+        PROGRESS: 1.1870%
+      </span>
+
+      {/* Embedded Video Monitor */}
+      <div className="relative w-full mt-4 overflow-hidden bg-black border rounded-lg aspect-video border-slate-800">
+        <iframe
+          src={videoUrl}
+          title="Kali Yuga Media Monitor"
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
       </div>
     </div>
   );
