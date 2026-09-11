@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protolabs Global</title>
+  <meta name="description" content="Protolabs Global — Ai One, Star Tracker, Kali AI, and Radio Central." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+
+    <!-- TOP NAV — brushed-metal header bar -->
+    <header class="topnav">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="38" height="38">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M20 10 L28 27 L12 27 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="brand-word">PROTO LABS<br /><span>GLOBAL</span></span>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-link" data-overlay="pricing">Pricing</button>
+        <div class="view-controls" role="group" aria-label="View controls">
+          <button class="view-btn" data-overlay="view-controls" aria-label="Grid view">▦</button>
+          <button class="view-btn" data-overlay="view-controls" aria-label="List view">☰</button>
+        </div>
+      </nav>
+
+      <div class="auth-actions">
+        <button class="btn btn-ghost" data-overlay="login">Log In</button>
+        <button class="btn btn-solid" data-overlay="signup">Sign Up</button>
+      </div>
+
+      <div class="page-curl" aria-hidden="true"></div>
+    </header>
+
+    <!-- MAIN: magazine canvas + radio panel -->
+    <main class="main-grid">
+
+      <!-- PRIMARY VISUAL MAGAZINE CANVAS -->
+      <section class="canvas" aria-label="Featured products">
+
+        <!-- Modular background layer — swap the active scene in script.js's
+             COVER_SCENES without touching any markup below. Nothing here
+             claims to be real astronomical photography; it's a procedural
+             CSS/canvas scene, honestly. -->
+        <div class="cover-scene" id="coverScene" data-scene="default">
+          <div class="starfield" id="starfield"></div>
+          <div class="nebula-layer" id="nebulaLayer"></div>
+          <div class="horizon-glow" id="horizonGlow"></div>
+        </div>
+
+        <!-- Populated at load from coverConfig.json — see loadCoverConfig()
+             in script.js. Nothing content-specific is hardcoded here, so a
+             monthly swap only ever touches that one JSON file. -->
+        <div class="canvas-overlay">
+          <p class="edition-tag" id="editionTag"></p>
+          <ul class="coverline-list" id="coverlineList"></ul>
+        </div>
+      </section>
+
+      <!-- RADIO CENTRAL SIDE PANEL -->
+      <aside class="radio-panel" id="radioPanel" aria-label="Radio Central">
+        <div class="radio-header">
+          <span class="radio-dot"></span>
+          <span class="radio-title">RADIO CENTRAL</span>
+          <span class="radio-live">LIVE</span>
+        </div>
+
+        <div class="radio-station">
+          <p class="radio-station-name">.977 Comedy</p>
+          <p class="radio-station-sub">Live Stream — placeholder audio, not connected</p>
+        </div>
+
+        <div class="radio-spectrum" id="radioSpectrum" aria-hidden="true">
+          <!-- decorative bars, filled by JS -->
+        </div>
+
+        <div class="radio-controls">
+          <button class="radio-play" id="radioPlayBtn" aria-label="Play">▶</button>
+          <input class="radio-volume" type="range" min="0" max="100" value="70" aria-label="Volume" />
+        </div>
+
+        <ul class="channel-list">
+          <li class="channel-row">
+            <span class="channel-name">.977 Comedy</span>
+            <span class="channel-tag">ON AIR</span>
+          </li>
+          <li class="channel-row channel-row-placeholder">
+            <span class="channel-name">More channels</span>
+            <span class="channel-tag">DEMO</span>
+          </li>
+        </ul>
+
+        <button class="radio-expand" data-overlay="radio-central">Open Radio Central →</button>
+      </aside>
+
+    </main>
+
+    <!-- PERSISTENT FOOTER METADATA BAR -->
+    <footer class="footer-bar">
+      <a class="footer-domain" href="https://protolabsglobal.com">protolabsglobal.com</a>
+      <span class="footer-sep">|</span>
+      <span>EARTH TIME: <span id="footerEarthTime">--</span></span>
+      <span class="footer-sep">|</span>
+      <span>KALI YUGA YEAR <span id="footerKaliYear">--</span></span>
+
+      <span class="footer-social" aria-label="Social links">
+        <a href="#" data-overlay="social" aria-label="LinkedIn">in</a>
+        <a href="#" data-overlay="social" aria-label="Instagram">ig</a>
+        <a href="#" data-overlay="social" aria-label="Facebook">fb</a>
+        <a href="#" data-overlay="social" aria-label="TikTok">tt</a>
+        <a href="#" data-overlay="social" aria-label="YouTube">yt</a>
+      </span>
+    </footer>
+
+  </div>
+
+  <!-- DEMO OVERLAY — dark glassmorphism modal, populated by OVERLAY_CONTENT
+       in script.js. The CTA row only renders when an entry has one. -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+      <button class="overlay-close" id="overlayClose" aria-label="Close">✕</button>
+      <p class="overlay-badge" id="overlayBadge">DEMO MODE</p>
+      <h2 id="overlayTitle">Feature title</h2>
+      <p id="overlayBody">Description.</p>
+      <a class="overlay-cta" id="overlayCta" href="#" style="display: none;"></a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

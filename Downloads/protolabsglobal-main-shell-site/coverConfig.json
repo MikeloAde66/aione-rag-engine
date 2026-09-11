@@ -1,0 +1,26 @@
+{
+  "backgroundImage": "assets/shadow-milkyway.png",
+  "editionTag": "COSMIC CREATOR EDITION",
+  "coverlines": [
+    {
+      "title": "STAR TRACKER",
+      "sub": "Stargazers! What if you had a smart telescope in your pocket? Try Star Tracker.",
+      "action": { "type": "overlay", "key": "star-tracker" }
+    },
+    {
+      "title": "KALI AI",
+      "sub": "Kali: Far more than just a mobile AI assistant.",
+      "action": { "type": "overlay", "key": "kali-ai" }
+    },
+    {
+      "title": "RADIO CENTRAL",
+      "sub": "Tune in daily for BBC News, Comedy, History talk radio.",
+      "action": { "type": "focus", "target": "radioPanel" }
+    },
+    {
+      "title": "PROTOTYPE",
+      "sub": "DIY prototyping and off-grid ideas.",
+      "action": { "type": "link", "href": "https://aione.protolabsglobal.com", "newTab": true }
+    }
+  ]
+}
