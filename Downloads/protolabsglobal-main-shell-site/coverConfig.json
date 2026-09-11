@@ -5,7 +5,7 @@
     {
       "title": "STAR TRACKER",
       "sub": "Stargazers! What if you had a smart telescope in your pocket? Try Star Tracker.",
-      "action": { "type": "overlay", "key": "star-tracker" }
+      "action": { "type": "link", "href": "https://aione.protolabsglobal.com" }
     },
     {
       "title": "KALI AI",
